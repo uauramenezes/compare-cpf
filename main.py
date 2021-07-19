@@ -1,18 +1,44 @@
+import csv
+import sys
+
 # Besides Pandas (pip3 install pandas) it's also needs xlrd (pip3 install xlrd)
-import pandas as pd
-data = pd.read_excel(r"teste.xls")
-cpf_excel = data['CPF'].to_list()
+# import pandas as pd
+# data = pd.read_excel(r"teste.xls")
+# cpf_excel = data['CPF'].to_list()
 
-lines = []
-with open("cpf.txt") as f:
-    lines = f.read().splitlines()  # Removes only \n
-    # lines = [line.rstrip() for line in f] # Removes all trailing whitespace
+# lines = []
+# with open("cpf.txt") as f:
+#     lines = f.read().splitlines()  # Removes only \n
 
-cpf = []
+if len(sys.argv) < 3:
+    raise ValueError(
+        'Por favor, informe o nome dos arquivos a serem comparados.')
 
-for n in range(0, len(cpf_excel)):
+
+cpf_obito = []
+with open(sys.argv[1]) as file:
+    lines = file.read().splitlines()
     for line in lines:
-        if float(line) == cpf_excel[n]:
-            cpf.append(line)
+        cpf_obito.append(line[163:174])
 
-print(cpf)
+
+cpf_prev = []
+prev = []
+with open(sys.argv[2], newline='') as csvfile:
+    column = csv.reader(csvfile, delimiter=',')
+    next(column)
+    for row in column:
+        cpf_prev.append(row[0])
+        prev.append(row)
+
+
+cpf = set(cpf_prev).intersection(cpf_obito)
+
+result = []
+for item in cpf:
+    index = cpf_prev.index(item)
+    result.append(prev[index])
+
+with open('obitos.txt', 'w') as file:
+    for item in result:
+        file.write(" ".join(item) + '\n')
