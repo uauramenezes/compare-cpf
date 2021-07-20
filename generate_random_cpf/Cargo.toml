@@ -1,5 +1,5 @@
 [package]
-name = "file-open"
+name = "generate_random_cpf"
 version = "0.1.0"
 authors = ["uauramenezes <uaurasilva@hotmail.com>"]
 edition = "2018"
