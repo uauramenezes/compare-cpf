@@ -11,7 +11,7 @@ def search_cpf(files):
     cpf_prev = []
     prev = []
 
-    def open_file(path):
+    def open_obi_file(path):
         with open(path) as file:
             lines = file.read().splitlines()
             for line in lines:
@@ -19,32 +19,34 @@ def search_cpf(files):
 
     def open_csv(path):
         with open(path, newline='') as csvfile:
-            column = csv.reader(csvfile, delimiter=',')
-            index = next(column).index("CPF")
-            for row in column:
-                cpf_prev.append(row[index])
-                prev.append(row)
+            lines = csv.reader(csvfile, delimiter=';')
+            index = next(lines).index("CPF")
+            for row in lines:
+                if row[0] == "*":
+                    continue
+                cpf = row[index].replace('.', '').replace('-', '')
+                cpf_prev.append(cpf)
+                prev.append(row[0:3])
 
     def create_file():
         cpf = []
-        path = files[0].split('/')
-        path = '/'.join(path[0:-1])
         cpf_list = set(cpf_prev).intersection(cpf_obito)
-
         for item in cpf_list:
             index = cpf_prev.index(item)
             cpf.append(prev[index])
 
-        with open(f'{path}/obitos.txt', 'w') as file:
+        path = files[0].split('/')
+        path = '/'.join(path[0:-1])
+        with open(f'{path}/obi/obitos.txt', 'w') as file:
             for item in cpf:
-                file.write(" ".join(item) + '\n')
+                file.write(f"\t\t".join(item[::-1]) + '\n')
 
     for file in files:
         file_format = file.split('.').pop()
-        if file_format == "csv":
+        if bool(re.search("OBI", file_format)):
+            open_obi_file(file)
+        elif file_format == "csv":
             open_csv(file)
-        elif file_format == "txt" or bool(re.search("OBI", file)):
-            open_file(file)
         else:
             showinfo(
                 title='Formato de Arquivo não Suportado',
