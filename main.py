@@ -15,6 +15,7 @@ def search_cpf(files):
         with open(path) as file:
             lines = file.read().splitlines()
             for line in lines:
+                # TODO: Return date of death
                 cpf_obito.append(line[163:174])
 
     def open_csv(path):
@@ -24,6 +25,7 @@ def search_cpf(files):
             for row in lines:
                 if row[0] == "*":
                     continue
+                # TODO: Try to return a single lists
                 cpf = row[index].replace('.', '').replace('-', '')
                 cpf_prev.append(cpf)
                 prev.append(row[0:3])
@@ -37,6 +39,7 @@ def search_cpf(files):
 
         path = files[0].split('/')
         path = '/'.join(path[0:-1])
+        # TODO: Write the columns names
         with open(f'{path}/obi/obitos.txt', 'w') as file:
             for item in cpf:
                 file.write(f"\t\t".join(item[::-1]) + '\n')
@@ -61,6 +64,7 @@ def search_cpf(files):
     )
 
 
+# TODO: Make a class to remove global variables
 root = tk.Tk()
 root.title('Comparar arquivos')
 root.resizable(False, False)
@@ -92,15 +96,14 @@ def select_files():
 
 
 def create_button(column, text, function):
-    # open button
-    open_button = ttk.Button(
+    button = ttk.Button(
         root,
         text=text,
         command=function
     )
 
-    open_button.grid(padx=10, pady=5, row=4, column=column)
-    open_button.place(x=column * 200 + 100, y=111)
+    button.grid(padx=10, pady=5, row=4, column=column)
+    button.place(x=column * 180 + 100, y=111)
 
 
 def create_label(row, text):
