@@ -13,8 +13,10 @@ def find_deceased(files):
         'name': [],
         'registration': []
     }
+
     deceased = {
         'cpf': [],
+        'mothers_name': [],
         'date_of_birth': [],
         'date_of_death': [],
     }
@@ -24,6 +26,7 @@ def find_deceased(files):
             lines = file.read().splitlines()
             for line in lines:
                 deceased['cpf'].append(line[163:174])
+                deceased['mothers_name'].append(line[115:147])
                 deceased['date_of_birth'].append(line[147:155])
                 deceased['date_of_death'].append(line[155:163])
 
@@ -50,6 +53,7 @@ def find_deceased(files):
                              deceased['date_of_birth'][index_deceased],
                              deceased['date_of_death'][index_deceased],
                              previcon['name'][index_previcon],
+                             deceased['mothers_name'][index_deceased],
                              ]
             previcon_deceased_list.append(prev_deceased)
         return previcon_deceased_list
@@ -59,11 +63,18 @@ def find_deceased(files):
 
         path = files[0].split('/')
         path = '/'.join(path[0:-1])
-        header = 'CPF\t\t\tMatrícula\tNascimento\t\tÓbito\t\t\tNome\n'
-        with open(f'{path}/obitos.txt', 'w') as file:
-            file.write(header)
-            for item in previcon_deceased:
-                file.write(f"\t\t".join(item) + '\n')
+        fields = ['CPF', 'Matrícula', 'Nascimento',
+                  'Data Óbito', 'Mãe', 'Nome']
+        with open(f'{path}/Óbitos.csv', 'w', newline='') as file:
+            csv_writer = csv.writer(file, delimiter=';')
+            csv_writer.writerow(fields)
+            csv_writer.writerows(previcon_deceased)
+
+        # header = 'CPF\t\t\tMatrícula\tNascimento\t\tÓbito\t\t\tMãe\t\t\t\t\tNome\n'
+        # with open(f'{path}/Óbitos.txt', 'w') as file:
+        #     file.write(header)
+        #     for item in previcon_deceased:
+        #         file.write(f"\t".join(item) + '\n')
 
     for file in files:
         file_format = file.split('.').pop()
