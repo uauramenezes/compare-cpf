@@ -1,3 +1,5 @@
+// Programa para gerar CPF aleatório
+
 use rand::{thread_rng, Rng};
 use std::fs::File;
 use std::io::{Error, Write};

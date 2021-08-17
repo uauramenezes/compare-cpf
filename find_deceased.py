@@ -1,3 +1,6 @@
+# Programa para comparar as tabelas da Previcon com o arquivo de falecidos dos mês e retornar pessoas em comum
+# Indicando falecimento de aposentados da Previcon sem notificação
+
 from tkinter.messagebox import showinfo
 from tkinter import filedialog as fd
 from tkinter import ttk
