@@ -16,6 +16,5 @@ def handle_file(filepath):
 
 
 gui = GUI(1, 'Juntar Matrículas', 135, handle_file)
-gui.create_button(0, 'Abrir Arquivo', 'open')
-gui.create_button(1, 'Juntar Matrículas', 'handle_file')
+gui.create_gui('Juntar Matrículas')
 gui.mainloop()

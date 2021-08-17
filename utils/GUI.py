@@ -45,7 +45,7 @@ class GUI(tk.Tk):
             message="Arquivo criado"
         )
 
-    def create_button(self, column, text, command):
+    def __create_button(self, column, text, command):
 
         function = self.__select_files if command == 'open' else self.__handle_file
 
@@ -61,3 +61,7 @@ class GUI(tk.Tk):
     def __create_label(self, row, text):
         label = ttk.Label(width=55, text=text)
         label.grid(padx=10, pady=5, row=row, column=1)
+
+    def create_gui(self, button_text):
+        self.__create_button(0, 'Abrir Arquivo', 'open')
+        self.__create_button(1, button_text, 'handle_file')

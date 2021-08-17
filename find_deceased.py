@@ -96,6 +96,5 @@ def find_deceased(files):
 
 
 gui = GUI(3, 'Comparar arquivos', 135, find_deceased)
-gui.create_button(0, 'Abrir Arquivo', 'open')
-gui.create_button(1, 'Fazer Busca', 'search')
+gui.create_gui('Fazer Busca')
 gui.mainloop()
