@@ -2,9 +2,7 @@
 # Indicando falecimento de aposentados da Previcon sem notificação
 
 from tkinter.messagebox import showinfo
-from tkinter import filedialog as fd
-from tkinter import ttk
-import tkinter as tk
+from utils.GUI import GUI
 import csv
 import re
 
@@ -95,65 +93,9 @@ def find_deceased(files):
             return
 
     create_file()
-    showinfo(
-        title='Concluído',
-        message="Arquivo criado"
-    )
 
 
-class GUI(tk.Tk):
-    def __init__(self, title, size, resize) -> None:
-        tk.Tk.__init__(self)
-        self.files = []
-        self.title(title)
-        self.geometry(size)
-        self.resizable(resize, resize)
-
-    def __select_files(self):
-        filetypes = (
-            ('All files', '*.*'),
-            ('csv files', '*.csv'),
-            ('text files', '*.txt'),
-        )
-
-        path = fd.askopenfilenames(
-            title='Open files',
-            initialdir='/',
-            filetypes=filetypes)
-
-        if len(path) == 0:
-            return
-        for n in range(0, len(path)):
-            self.files.insert(n, path[n])
-            filename = path[n].split('/').pop()
-            self.create_label(n, filename)
-            if n >= 2:
-                break
-
-    def __search(self):
-        if len(self.files) == 0:
-            return
-        find_deceased(self.files)
-
-    def create_button(self, column, text, command):
-
-        function = self.__select_files if command == 'open' else self.__search
-
-        button = ttk.Button(
-            self,
-            text=text,
-            command=function
-        )
-
-        button.grid(padx=10, pady=5, row=4, column=column)
-        button.place(x=column * 180 + 100, y=111)
-
-    def create_label(self, row, text):
-        label = ttk.Label(width=55, text=text)
-        label.grid(padx=10, pady=5, row=row, column=1)
-
-
-gui = GUI('Comparar arquivos', '450x150', False)
-gui.create_button(0, 'Abrir arquivo', 'open')
-gui.create_button(1, 'Fazer busca', 'search')
+gui = GUI(3, 'Comparar arquivos', 135, find_deceased)
+gui.create_button(0, 'Abrir Arquivo', 'open')
+gui.create_button(1, 'Fazer Busca', 'search')
 gui.mainloop()
