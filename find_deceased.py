@@ -65,7 +65,7 @@ def find_deceased(files):
         path = files[0].split('/')
         path = '/'.join(path[0:-1])
         fields = ['CPF', 'Matrícula', 'Nascimento',
-                  'Data Óbito', 'Mãe', 'Nome']
+                  'Data Óbito', 'Nome', 'Mãe']
         with open(f'{path}/Óbitos.csv', 'w', newline='') as file:
             csv_writer = csv.writer(file, delimiter=';')
             csv_writer.writerow(fields)
